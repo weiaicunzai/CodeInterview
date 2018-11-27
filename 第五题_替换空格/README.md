@@ -72,5 +72,5 @@ char str[]的类型是const char *因此无法修改。
 ```char str[] = "abc"```中，```str```的长度是4，最后一个元素为```\0```。
 ```
 char str[4] = "abc"; //ok
-cahr str[3] = "abc"; //error
+char str[3] = "abc"; //error
 ```
