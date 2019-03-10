@@ -41,6 +41,4 @@ public:
 
         path.pop_back();
    }
-
-
 };
