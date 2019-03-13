@@ -75,34 +75,30 @@ public:
     TreeNode* Convert(TreeNode* pRootOfTree)
     {
         if(!pRootOfTree)
-            return pRootOfTree;
+            return nullptr;
             
-        TreeNode *pre;
+        TreeNode *pre = nullptr;
         get_linkedlist(pRootOfTree, pre);
 
-        while(pre->left)
-            pre = pre->left;
+        TreeNode *res = pRootOfTree;
+        while(res->left)
+            res = res->left;
         
-        return pre;
+        return res;
     }
 
-    void get_linkedlist(TreeNode* pRootOfTree, TreeNode *&pre)
+    void get_linkedlist(TreeNode* cur, TreeNode *&pre)
     {
-        if(!pRootOfTree)
+        if(!cur)
             return;
-
-        TreeNode *cur = pRootOfTree;
 
         get_linkedlist(cur->left, pre);
 
-
-        pre = cur->left;
+        cur->left = pre;
         if(pre)
             pre->right = cur;
         pre = cur;
 
         get_linkedlist(cur->right, pre);
-
-        
     }
 };
