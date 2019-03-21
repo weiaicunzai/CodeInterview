@@ -1,44 +1,44 @@
 ## 题目描述
 
-输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+ 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
 
 ## 解题思路
 
-我们如果使用int类型的数进行比较，在数字拼接的过程中，很可能会出现溢出的情况。因此，我们可以通过转换成字符串来解决这个问题。
-之后使用排序：
-如果字符串a+b > b+a，则a>b
-如果字符串a+b < b+a，则a<b
-如果字符串a+b = b+a, 则a=b
-有了字符串大小的比较规则，使用排序算法就可以得到最终的序列。
+使用一个比较简单的思路去做。在不修改数组的情况下，我们使用一个最大堆来存储所有最小的k个元素。首先将原始数组
+中的前k个数字放进最大堆中，此时堆中最大的数就是堆顶元素。我们将继续遍历原始数组中剩余的元素，依次和最大堆的
+堆顶元素进行比较，因此如果数组元素比堆顶元素小，则删除堆顶元素，把数组元素插入到堆中。
 
 ## C++代码
 ```
 class Solution {
 public:
-    string PrintMinNumber(vector<int> numbers) {
-        vector<string> strings;
-        for(auto x : numbers)
-            strings.push_back(to_string(x));
-        
-        sort(strings.begin(), strings.end(), [this](string a, string b){
-            return compare(a, b);
-        });
+    vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
+        if(k > input.size())
+            return vector<int>();
+        priority_queue<int> pq;
 
-        string res;
-        for(auto x : strings)
-            res += x;
-        
+        for(int i = 0; i < input.size(); i++)
+        {
+            if(i < k)
+            {
+                pq.push(input[i]);
+                continue;
+            } 
+            if(input[i] < pq.top())
+            {
+                pq.pop();
+                pq.push(input[i]);
+            }
+        }
+
+        vector<int> res;
+        while(!pq.empty())
+        {
+            res.push_back(pq.top());
+            pq.pop();
+        }
+
         return res;
-    }
-
-    bool compare(string str1, string str2)
-    {
-        string str1str2 = str1 + str2;
-        string str2str1 = str2 + str1;
-        if(str1str2 >= str2str1)
-            return false;
-        else
-            return true;
     }
 };
 ```
